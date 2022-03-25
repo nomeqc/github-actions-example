@@ -1,0 +1,31 @@
+name: Download file
+ 
+on: 
+ workflow_dispatch:
+  inputs:
+   url:
+     description: '请输入要下载的文件：'
+     required: true
+   output:
+     description: '请输入保存的目录：'
+     required: true
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Run
+      run: |
+          curl -o "${OUTPUT}" "${URL}"
+          git config --global user.email nomeqc@gmail.com
+          git config --global user.name Fallrainy
+          git add "${OUTPUT}"
+          git commit -m "add file"
+          git push
+      env:
+       URL: ${{ github.event.inputs.url }}
+       OUTPUT: ${{ github.event.inputs.output }}
