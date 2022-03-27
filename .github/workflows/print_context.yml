@@ -19,5 +19,3 @@ jobs:
         run: echo '${{ toJSON(strategy) }}'
       - name: Dump matrix context
         run: echo '${{ toJSON(matrix) }}'
-      - name: test
-        run: python ./scripts/test.py
