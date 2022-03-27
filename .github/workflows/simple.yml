@@ -1,5 +1,5 @@
 
-name: Download file
+name: Simple
  
 on: 
  workflow_dispatch:
