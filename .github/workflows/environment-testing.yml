@@ -10,6 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install Dependencies
-        if: env.LUCKY_NUMBER == "8"
+        if: env.LUCKY_NUMBER == '8'
         run: |
           echo "My lucky number: $LUCKY_NUMBER"
