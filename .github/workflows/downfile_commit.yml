@@ -1,4 +1,4 @@
-name: 下载文件，提交到仓库指定位置
+name: 下载文件 & 保存到仓库
  
 on: 
  workflow_dispatch:
