@@ -1,0 +1,28 @@
+name: 'checkout multiple repos'
+ 
+on: 
+ workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        path: main
+
+    - name: Checkout private tools
+      uses: actions/checkout@v3
+      with:
+        repository: nomeqc/private-scripts
+        token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+        path: private-scripts
+        
+    - name: Run
+      run: |
+        ls
