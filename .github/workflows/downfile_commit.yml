@@ -20,6 +20,7 @@ jobs:
     
     - name: Run
       run: |
+          mkdir -p $(dirname "$OUTPUT")
           curl -o "${OUTPUT}" "${URL}"
           git config --global user.email nomeqc@gmail.com
           git config --global user.name Fallrainy
