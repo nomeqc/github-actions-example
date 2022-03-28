@@ -1,4 +1,4 @@
-name: 手动触发工作流程、接受用户输入
+name: '手动触发工作流程、接受用户输入            '
 on:
   workflow_dispatch:
     inputs:
