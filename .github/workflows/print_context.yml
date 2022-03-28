@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: show PATH
-        run: cat "$GITHUB_PATH"
+        run: echo $(cat "$GITHUB_PATH")
       - name: Dump GitHub context
         id: github_context_step
         run: echo '${{ toJSON(github) }}'
