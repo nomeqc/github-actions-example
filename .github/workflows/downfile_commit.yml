@@ -1,4 +1,4 @@
-name: 下载文件，提交到仓库指定目录
+name: 下载文件，提交到仓库指定位置
  
 on: 
  workflow_dispatch:
@@ -7,7 +7,7 @@ on:
      description: '请输入要下载的文件：'
      required: true
    output:
-     description: '请输入保存的目录：'
+     description: '请输入文件保存的位置(相对仓库根目录)：'
      required: true
 
 jobs:
