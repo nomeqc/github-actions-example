@@ -1,5 +1,5 @@
 
-name: Simple
+name: 简单模板
  
 on: 
  workflow_dispatch:
