@@ -1,0 +1,34 @@
+name: Download and release
+ 
+on: 
+ workflow_dispatch:
+  inputs:
+   url:
+     description: '请输入youtube视频地址'
+     required: true
+ 
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v1
+      with:
+        python-version: '3.9'
+    - run:  |
+        echo "下载:${URL}"
+        echo $URL > playlist.txt
+        sudo -H pip install --upgrade yt-dlp
+        yt-dlp --config-location config.txt
+      env:
+       URL: ${{ github.event.inputs.url }}
+       
+    - name: Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: ./downloads/*
+        tag_name: 'main'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        
+ 
