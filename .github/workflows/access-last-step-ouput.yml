@@ -20,6 +20,6 @@ jobs:
         
     - name: Step2
       env:
-        YEAR: {{ steps.step1.outputs.year }}
+        YEAR: ${{ steps.step1.outputs.year }}
       run: |
         echo "year:$YEAR"
