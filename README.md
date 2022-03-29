@@ -12,3 +12,5 @@
 [![输出上下文     ](https://github.com/Nomeqc/github-actions-example/actions/workflows/print_context.yml/badge.svg)](https://github.com/Nomeqc/github-actions-example/actions/workflows/print_context.yml)
 
 [![checkout multiple repos](https://github.com/nomeqc/github-actions-example/actions/workflows/checkout-multiple-repos.yml/badge.svg)](https://github.com/nomeqc/github-actions-example/actions/workflows/checkout-multiple-repos.yml)
+
+[![Download and release](https://github.com/nomeqc/github-actions-example/actions/workflows/downfile-release.yml/badge.svg)](https://github.com/nomeqc/github-actions-example/actions/workflows/downfile-release.yml)
