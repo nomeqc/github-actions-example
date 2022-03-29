@@ -1,0 +1,54 @@
+name: Download and release
+
+on:
+  workflow_dispatch:
+    inputs:
+        downlist:
+          description: '请输入下载列表文件位置：'
+          required: true
+        tag:
+          description: '请输入release tag：'
+          required: true
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Download files
+        id: downloads
+        env:
+          DOWNLIST: ${{ github.event.inputs.downlist }}
+        run: |
+          file="$DOWNLIST"
+          if [[ "$file" =~ ^https:// ]] || [[ "$file" =~ ^http:// ]]; then
+              tmp=$(mktemp downlist.XXXX.txt)
+              curl -Lfso "$tmp" "$file"
+              file=$tmp
+          fi
+          tmpdir=$(mktemp -d downloads.XXXX)
+          while IFS= read -r line || [ -n "$line" ]; do
+              params=(${line// / })
+              url=${params[0]}
+              name=$(basename "$url")
+              if [[ ${#params[@]} -ge 2 ]]; then
+                  name=${params[1]}
+              fi
+              if [[ -z "$url" ]]; then
+                  continue
+              fi
+              echo "下载文件：${url}"
+              curl -# -Lfo "$tmpdir/$name" "$url"
+          done <"$file"
+          # 
+          echo "::set-output name=dir::$tmpdir"
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: ${{ format('{0}/*', steps.downloads.outputs.dir) }}
+          tag_name: ${{ github.event.inputs.tag }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
