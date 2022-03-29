@@ -9,6 +9,8 @@
 
 [![设置环境变量、调用环境变量](https://github.com/Nomeqc/github-actions-example/actions/workflows/environment-testing.yml/badge.svg)](https://github.com/Nomeqc/github-actions-example/actions/workflows/environment-testing.yml)
 
+[![接收上一步输出](https://github.com/nomeqc/github-actions-example/actions/workflows/access-last-step-ouput.yml/badge.svg)](https://github.com/nomeqc/github-actions-example/actions/workflows/access-last-step-ouput.yml)
+
 [![输出上下文     ](https://github.com/Nomeqc/github-actions-example/actions/workflows/print_context.yml/badge.svg)](https://github.com/Nomeqc/github-actions-example/actions/workflows/print_context.yml)
 
 [![checkout multiple repos](https://github.com/nomeqc/github-actions-example/actions/workflows/checkout-multiple-repos.yml/badge.svg)](https://github.com/nomeqc/github-actions-example/actions/workflows/checkout-multiple-repos.yml)
