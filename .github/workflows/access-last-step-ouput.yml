@@ -15,7 +15,6 @@ jobs:
     - name: Step1
       id: step1
       run: |
-        python ./scripts/test.py
         echo "::set-output name=year::2022"
         
     - name: Step2
