@@ -1,0 +1,25 @@
+
+name: '接收上一步输出     '
+ 
+on: 
+ workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    
+    - name: Step1
+      id: step1
+      run: |
+        python ./scripts/test.py
+        echo "::set-output name=year::2022"
+        
+    - name: Step2
+      env:
+        YEAR: {{ steps.step1.outputs.year }}
+      run: |
+        echo "year:$YEAR"
