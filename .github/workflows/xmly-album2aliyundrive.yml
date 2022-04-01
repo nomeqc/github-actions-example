@@ -38,7 +38,7 @@ jobs:
       - name: Run
         run: |
           if [[ -f xmly2aliyundrive/requirements.txt ]]; then pip install -r xmly2aliyundrive/requirements.txt; fi
-          python xmly2aliyundrive/main.py "$ALBUM_ID" "$DRIVE_DIR" -c 5
+          python xmly2aliyundrive/main.py "$ALBUM_ID" "$DRIVE_DIR" -c 8
         env:
           ALBUM_ID: ${{ github.event.inputs.album_id }}
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
