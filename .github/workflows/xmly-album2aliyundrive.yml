@@ -1,0 +1,44 @@
+name: "xmly ablum upload to aliyundrive     "
+
+on:
+  workflow_dispatch:
+    inputs:
+      album_id:
+        description: "请输入喜马拉雅专辑id："
+        required: true
+      drive_dir:
+        description: "请输入保存的网盘目录："
+        required: true
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout private scripts
+        uses: actions/checkout@v3
+        with:
+          repository: nomeqc/private-scripts
+          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: pip cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('xmly2aliyundrive/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Run
+        run: |
+          if [[ -f requirements.txt ]]; then pip install -r xmly2aliyundrive/requirements.txt; fi
+          python xmly2aliyundrive/main.py "$ALBUM_ID" "$DRIVE_DIR" -c 5
+        env:
+          ALBUM_ID: ${{ github.event.inputs.album_id }}
+          DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
