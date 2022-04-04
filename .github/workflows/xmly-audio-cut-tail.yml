@@ -63,4 +63,4 @@ jobs:
         env:
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
           SAMPLE_URL: ${{ github.event.inputs.sample_url }}
-          FILTER_FUNC: ${{ github.event.inputs.filter_func }}
+          FILTER_FUNC: ${{ github.event.inputs.filter_func_url }}
