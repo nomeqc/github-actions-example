@@ -27,6 +27,15 @@ jobs:
         with:
           python-version: "3.9"
 
+      - name: audio files cache
+        id: tools-cache
+        uses: actions/cache@v3
+        with:
+          path: xmly2aliyundrive/output/${{ github.event.inputs.album_id }}
+          key: ${{ runner.os }}-xmly-audio-${{ github.event.inputs.album_id }}
+          restore-keys: |
+            ${{ runner.os }}-xmly-audio-
+
       - name: pip cache
         uses: actions/cache@v3
         with:
@@ -34,6 +43,7 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('xmly2aliyundrive/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
+        
 
       - name: Run
         run: |
