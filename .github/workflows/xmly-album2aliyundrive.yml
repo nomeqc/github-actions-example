@@ -9,6 +9,10 @@ on:
       drive_dir:
         description: "请输入保存的网盘目录："
         required: true
+      data_url:
+        description: "数据url："
+        default: ''
+        required: true
       read_cache:
         description: '读取缓存'
         required: true
@@ -58,12 +62,13 @@ jobs:
           
           if [ "$READ_CACHE" == "否" ];then
             echo "将忽略缓存"
-            python xmly2aliyundrive/main.py "$ALBUM_ID" "$DRIVE_DIR" -c 8 --ignore_cache
+            python xmly2aliyundrive/main.py "$ALBUM_ID" "$DRIVE_DIR" -c 8 --data_url "$DATA_URL" --ignore_cache
           else
-            python xmly2aliyundrive/main.py "$ALBUM_ID" "$DRIVE_DIR" -c 8 
+            python xmly2aliyundrive/main.py "$ALBUM_ID" "$DRIVE_DIR" -c 8 --data_url "$DATA_URL"
           fi
           
         env:
           ALBUM_ID: ${{ github.event.inputs.album_id }}
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
           READ_CACHE: ${{ github.event.inputs.read_cache }}
+          DATA_URL: ${{ github.event.inputs.data_url }}
