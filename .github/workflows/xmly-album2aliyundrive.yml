@@ -1,10 +1,10 @@
-name: "xmly ablum upload to aliyundrive     "
+name: "Download Ximalaya album & upload to aliyundrive           "
 
 on:
   workflow_dispatch:
     inputs:
       album_id:
-        description: "请输入喜马拉雅专辑id："
+        description: "请输入喜马拉雅专辑ID："
         required: true
       drive_dir:
         description: "请输入保存的网盘目录："
@@ -38,14 +38,14 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: audio files cache
-        id: tools-cache
-        uses: actions/cache@v3
-        with:
-          path: xmly2aliyundrive/output/${{ github.event.inputs.album_id }}
-          key: ${{ runner.os }}-xmly-audio-${{ github.event.inputs.album_id }}
-          restore-keys: |
-            ${{ runner.os }}-xmly-audio-
+      # - name: audio files cache
+      #   id: tools-cache
+      #   uses: actions/cache@v3
+      #   with:
+      #     path: xmly2aliyundrive/output/${{ github.event.inputs.album_id }}
+      #     key: ${{ runner.os }}-xmly-audio-${{ github.event.inputs.album_id }}
+      #     restore-keys: |
+      #       ${{ runner.os }}-xmly-audio-
 
       - name: pip cache
         uses: actions/cache@v3
