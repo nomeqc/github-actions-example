@@ -1,4 +1,4 @@
-name: Ximalaya audio cut tail
+name: Aliyundrive audio Trimmer    
 
 on:
   workflow_dispatch:
