@@ -11,6 +11,7 @@ on:
         required: true
       filter_func_url:
         description: "请输入过滤函数地址："
+        default: ""
         required: true
 
 env:
