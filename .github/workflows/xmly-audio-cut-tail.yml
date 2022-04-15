@@ -6,9 +6,14 @@ on:
       drive_dir:
         description: "请输入阿里云盘目录："
         required: true
-      sample_url:
-        description: "请输入要切除的音频样本地址："
-        required: true
+      leading_sample_url:
+        description: "请输入开头音频样本地址："
+        default: ""
+        required: false
+      trailing_sample_url:
+        description: "请输入结尾音频样本地址："
+        default: ""
+        required: false
       filter_func_url:
         description: "请输入过滤函数地址："
         default: ""
@@ -60,8 +65,9 @@ jobs:
       
       - name: Run
         run: |
-          python xmly2aliyundrive/cut_drive_auido_tail.py "${DRIVE_DIR}" "${SAMPLE_URL}" --filter_func "${FILTER_FUNC}"
+          python xmly2aliyundrive/cut_drive_auido_tail.py "${DRIVE_DIR}" --leading_sample_url "${LEADING_SAMPLE_URL}" --trailing_sample_url "${TRAILING_SAMPLE_URL}" --filter_func "${FILTER_FUNC}"
         env:
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
-          SAMPLE_URL: ${{ github.event.inputs.sample_url }}
+          LEADING_SAMPLE_URL: ${{ github.event.inputs.leading_sample_url }}
+          TRAILING_SAMPLE_URL: ${{ github.event.inputs.trailing_sample_url }}
           FILTER_FUNC: ${{ github.event.inputs.filter_func_url }}
