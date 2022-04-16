@@ -65,7 +65,7 @@ jobs:
       
       - name: Run
         run: |
-          python xmly2aliyundrive/cut_drive_auido_tail.py "${DRIVE_DIR}" --leading_sample_url "${LEADING_SAMPLE_URL}" --trailing_sample_url "${TRAILING_SAMPLE_URL}" --filter_func "${FILTER_FUNC}"
+          python xmly2aliyundrive/aliyundrive_audio_cutter.py "${DRIVE_DIR}" --leading_sample_url "${LEADING_SAMPLE_URL}" --trailing_sample_url "${TRAILING_SAMPLE_URL}" --filter_func "${FILTER_FUNC}"
         env:
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
           LEADING_SAMPLE_URL: ${{ github.event.inputs.leading_sample_url }}
