@@ -1,4 +1,4 @@
-name: Aliyundrive audio Trimmer    
+name: Aliyundrive Audio Cutter    
 
 on:
   workflow_dispatch:
