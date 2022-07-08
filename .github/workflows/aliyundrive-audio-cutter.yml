@@ -52,7 +52,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('xmly2aliyundrive/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('aliyundrive_audio_cutter/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
       
@@ -61,19 +61,19 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ env.TOOLS_PATH }}
-          key: ${{ runner.os }}-tools-${{ hashFiles('xmly2aliyundrive/scripts/install.sh') }}
+          key: ${{ runner.os }}-tools-${{ hashFiles('aliyundrive_audio_cutter/scripts/install.sh') }}
           restore-keys: |
             ${{ runner.os }}-tools-
 
       - name: Install dependency
         run: |
-          bash xmly2aliyundrive/scripts/install.sh
+          bash aliyundrive_audio_cutter/scripts/install.sh
         env:
           TOOLS_CACHE_HIT: ${{ steps.tools-cache.outputs.cache-hit }}
       
       - name: Run
         run: |
-          python xmly2aliyundrive/aliyundrive_audio_cutter.py "${DRIVE_DIR}" --leading_seconds "${LEADING_SECONDS}" --trailing_seconds "${TRAILING_SECONDS}" --leading_sample_url "${LEADING_SAMPLE_URL}" --trailing_sample_url "${TRAILING_SAMPLE_URL}" --filter_func "${FILTER_FUNC}"
+          python aliyundrive_audio_cutter/aliyundrive_audio_cutter.py "${DRIVE_DIR}" --leading_seconds "${LEADING_SECONDS}" --trailing_seconds "${TRAILING_SECONDS}" --leading_sample_url "${LEADING_SAMPLE_URL}" --trailing_sample_url "${TRAILING_SAMPLE_URL}" --filter_func "${FILTER_FUNC}"
         env:
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
           LEADING_SECONDS: ${{ github.event.inputs.leading_seconds }}
