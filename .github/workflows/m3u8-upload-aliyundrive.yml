@@ -1,0 +1,73 @@
+name: Download m3u8 video & upload to AliyunDrive       
+
+on:
+  workflow_dispatch:
+    inputs:
+      m3u8_url:
+        description: "m3u8 url："
+        required: true
+      filename:
+        description: "下载文件名称："
+        required: true
+      drive_dir:
+        description: "文件上传的网盘目录："
+        required: true
+      password:
+        description: "压缩密码（默认为000），不需要压缩密码留空："
+        default: "000"
+        required: false
+
+
+env:
+  TOOLS_PATH: /usr/local/bin/tools
+
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout private scripts
+        uses: actions/checkout@v3
+        with:
+          repository: nomeqc/private-scripts
+          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: pip cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('filetransfer/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+      
+      - name: tools cache
+        id: tools-cache
+        uses: actions/cache@v3
+        with:
+          path: ${{ env.TOOLS_PATH }}
+          key: ${{ runner.os }}-tools-${{ hashFiles('filetransfer/scripts/install.sh') }}
+          restore-keys: |
+            ${{ runner.os }}-tools-
+
+      - name: Install dependency
+        run: |
+          sudo apt install -y zip
+          bash filetransfer/scripts/install.sh
+        env:
+          TOOLS_CACHE_HIT: ${{ steps.tools-cache.outputs.cache-hit }}
+      
+      - name: Run
+        run: |
+          python filetransfer/m3u8transfer.py --drive_type aliyundrive --password "${PASSWORD}" "${M3U8_URL}" "${FILENAME}" "${DRIVE_DIR}"
+        env:
+          M3U8_URL: ${{ github.event.inputs.m3u8_url }}
+          FILENAME: ${{ github.event.inputs.filename }}
+          DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
+          PASSWORD: ${{ github.event.inputs.password }}
