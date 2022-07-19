@@ -3,23 +3,27 @@ name: Download m3u8 video & upload to AliyunDrive
 on:
   workflow_dispatch:
     inputs:
-      m3u8_url:
-        description: "m3u8 url："
+      url:
+        description: "文件下载地址："
         required: true
       filename:
         description: "下载文件名称："
-        required: true
+        default: ""
+        required: false
       drive_dir:
         description: "文件上传的网盘目录："
         required: true
+      is_zip:
+        description: "压缩成ZIP："
+        type: boolean
+        default: true
+        required: false
       password:
         description: "压缩密码（默认为000），不需要压缩密码留空："
         default: "000"
         required: false
 
 
-env:
-  TOOLS_PATH: /usr/local/bin/tools
 
   
 jobs:
@@ -43,31 +47,29 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('m3u8transfer/requirements.txt') }}
+          key: ${{ runner.os }}-pip-${{ hashFiles('filetransfer/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      
-      - name: tools cache
-        id: tools-cache
-        uses: actions/cache@v3
-        with:
-          path: ${{ env.TOOLS_PATH }}
-          key: ${{ runner.os }}-tools-${{ hashFiles('m3u8transfer/scripts/install.sh') }}
-          restore-keys: |
-            ${{ runner.os }}-tools-
+
 
       - name: Install dependency
         run: |
           sudo apt install -y zip
-          bash m3u8transfer/scripts/install.sh
+          bash filetransfer/scripts/install.sh
         env:
           TOOLS_CACHE_HIT: ${{ steps.tools-cache.outputs.cache-hit }}
       
       - name: Run
         run: |
-          python m3u8transfer/m3u8transfer.py --drive_type aliyundrive --password "${PASSWORD}" "${M3U8_URL}" "${FILENAME}" "${DRIVE_DIR}"
+          if [ "$IS_ZIP" == "true" ];then
+            python filetransfer/filetransfer.py "${URL}" "${FILENAME}" "${DRIVE_DIR}" --password "${PASSWORD}" --is_zip
+          else
+            python filetransfer/filetransfer.py "${URL}" "${FILENAME}" "${DRIVE_DIR}" 
+          fi
+          
         env:
-          M3U8_URL: ${{ github.event.inputs.m3u8_url }}
+          URL: ${{ github.event.inputs.url }}
           FILENAME: ${{ github.event.inputs.filename }}
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
+          IS_ZIP: ${{ github.event.inputs.is_zip }}
           PASSWORD: ${{ github.event.inputs.password }}
