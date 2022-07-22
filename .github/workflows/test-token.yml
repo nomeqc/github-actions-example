@@ -1,0 +1,28 @@
+name: Github token test   
+
+on:
+  workflow_dispatch:
+
+
+env:
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout private scripts
+        uses: actions/checkout@v3
+        with:
+          repository: nomeqc/private-scripts
+          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+
+      - name: Run
+        run: |
+          echo "GITHUB_TOKEN: ${GITHUB_TOKEN}"
+          echo "GH_TOKEN: ${GH_TOKEN}"
+          python util/github.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
