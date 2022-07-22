@@ -1,25 +1,27 @@
-name: '下载文件 & 保存到仓库          '
- 
-on: 
- workflow_dispatch:
-  inputs:
-   url:
-     description: '请输入要下载的文件：'
-     required: true
-   output:
-     description: '请输入文件保存的位置(相对仓库根目录)：'
-     required: true
+name: "下载文件 & 保存到仓库          "
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "请输入要下载的文件："
+        required: true
+      output:
+        description: "请输入文件保存的位置(相对仓库根目录)："
+        required: true
+
+env:
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    
-    - name: Run
-      run: |
+      - uses: actions/checkout@v2
+
+      - name: Run
+        run: |
           mkdir -p $(dirname "$OUTPUT")
           curl -o "${OUTPUT}" "${URL}"
           git config --global user.email nomeqc@gmail.com
@@ -27,6 +29,6 @@ jobs:
           git add "${OUTPUT}"
           git commit -m "add file"
           git push
-      env:
-       URL: ${{ github.event.inputs.url }}
-       OUTPUT: ${{ github.event.inputs.output }}
+        env:
+          URL: ${{ github.event.inputs.url }}
+          OUTPUT: ${{ github.event.inputs.output }}
