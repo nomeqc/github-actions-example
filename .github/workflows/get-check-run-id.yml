@@ -1,0 +1,20 @@
+
+on:
+  workflow_dispatch:
+
+jobs:
+  setup:
+    name: Get check run ids from action run id
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch check run ids
+        id: fetch
+        uses: octokit/request-action@v2.x
+        with:
+          route: GET /repos/{repo}/actions/runs/{run_id}/jobs
+          repo: ${{ github.repository }}
+          run_id: ${{ github.run_id }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Echo check run ids
+        run: echo "job ids - ${{ toJSON(fromJSON(steps.fetch.outputs.data).jobs.*.id) }}
