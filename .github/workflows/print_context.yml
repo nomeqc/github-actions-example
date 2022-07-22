@@ -6,6 +6,8 @@ jobs:
   dump_contexts_to_log:
     runs-on: ubuntu-latest
     steps:
+      - name: Show all PATH vars
+        run: python -c "import os; print(os.environ)"
       - name: show PATH
         run: echo $(cat "$GITHUB_PATH")
       - name: Dump GitHub context
