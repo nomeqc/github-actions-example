@@ -21,6 +21,7 @@ on:
         required: true
 
 env:
+  GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TOOLS_PATH: /usr/local/bin/tools
   

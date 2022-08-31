@@ -24,6 +24,7 @@ on:
         required: false
 
 env:
+  GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   

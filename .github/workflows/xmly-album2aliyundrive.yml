@@ -23,6 +23,7 @@ on:
         - 否
 
 env:
+  GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
