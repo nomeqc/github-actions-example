@@ -9,6 +9,14 @@ on:
       drive_dir:
         description: "文件上传的网盘目录："
         required: true
+      drive_type:
+        description: '网盘类型：'
+        required: true
+        default: 'aliyundrive' 
+        type: choice
+        options:
+        - aliyundrive
+        - cloud189
 
 
 env:
@@ -59,7 +67,8 @@ jobs:
       
       - name: Run
         run: |
-          python duboku.tv/main.py --drive_type aliyundrive "${URL_PATTERN}" "${DRIVE_DIR}"
+          python duboku.tv/main.py --drive_type ${DRIVE_TYPE} "${URL_PATTERN}" "${DRIVE_DIR}"
         env:
           URL_PATTERN: ${{ github.event.inputs.url_pattern }}
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
+          DRIVE_TYPE: ${{ github.event.inputs.drive_type }}
