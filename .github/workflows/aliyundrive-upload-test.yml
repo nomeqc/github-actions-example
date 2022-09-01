@@ -5,6 +5,7 @@ on:
     inputs:
       filesize:
         description: "文件大小(MB)："
+        default: '50'
         required: true
 
   
