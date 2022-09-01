@@ -22,6 +22,8 @@ on:
 env:
   GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  CLOUD189_USER: ${{ secrets.CLOUD189_USER }}
+  CLOUD189_PWD: ${{ secrets.CLOUD189_PWD }}
   TOOLS_PATH: /usr/local/bin/tools
 
   
@@ -62,6 +64,7 @@ jobs:
       - name: Install dependency
         run: |
           bash duboku.tv/scripts/install.sh
+          python install/install_cloud189.py
         env:
           TOOLS_CACHE_HIT: ${{ steps.tools-cache.outputs.cache-hit }}
       
