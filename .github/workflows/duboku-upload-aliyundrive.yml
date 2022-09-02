@@ -17,15 +17,19 @@ on:
         options:
         - aliyundrive
         - cloud189
-
+      enable_proxy:
+        description: '启用代理'
+        required: false 
+        type: boolean 
 
 env:
+  ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
   GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   CLOUD189_USER: ${{ secrets.CLOUD189_USER }}
   CLOUD189_PWD: ${{ secrets.CLOUD189_PWD }}
   TOOLS_PATH: /usr/local/bin/tools
-
+  
   
 jobs:
   build:
