@@ -9,14 +9,14 @@ on:
       drive_dir:
         description: "文件上传的网盘目录："
         required: true
-      drive_type:
-        description: '网盘类型：'
-        required: true
-        default: 'aliyundrive' 
-        type: choice
-        options:
-        - aliyundrive
-        - cloud189
+      # drive_type:
+      #   description: '网盘类型：'
+      #   required: true
+      #   default: 'aliyundrive' 
+      #   type: choice
+      #   options:
+      #   - aliyundrive
+      #   - cloud189
       enable_proxy:
         description: '启用代理'
         required: false 
@@ -26,8 +26,8 @@ env:
   ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
   GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  CLOUD189_USER: ${{ secrets.CLOUD189_USER }}
-  CLOUD189_PWD: ${{ secrets.CLOUD189_PWD }}
+  # CLOUD189_USER: ${{ secrets.CLOUD189_USER }}
+  # CLOUD189_PWD: ${{ secrets.CLOUD189_PWD }}
   TOOLS_PATH: /usr/local/bin/tools
   
   
@@ -74,8 +74,8 @@ jobs:
       
       - name: Run
         run: |
-          python duboku.tv/main.py --drive_type ${DRIVE_TYPE} "${URL_PATTERN}" "${DRIVE_DIR}"
+          python duboku.tv/main.py --drive_type aliyundrive "${URL_PATTERN}" "${DRIVE_DIR}"
         env:
           URL_PATTERN: ${{ github.event.inputs.url_pattern }}
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
-          DRIVE_TYPE: ${{ github.event.inputs.drive_type }}
+          # DRIVE_TYPE: ${{ github.event.inputs.drive_type }}
