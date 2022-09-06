@@ -19,18 +19,22 @@ on:
       drive_dir:
         description: "文件上传的网盘目录："
         required: true
+      enable_proxy:
+        description: "启用代理"
+        required: false
+        type: boolean
 
 env:
+  ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
   GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TOOLS_PATH: /usr/local/bin/tools
-  
+
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout private scripts
         uses: actions/checkout@v3
         with:
@@ -49,7 +53,7 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('y2b2aliyundrive/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      
+
       - name: tools cache
         id: tools-cache
         uses: actions/cache@v3
@@ -64,7 +68,7 @@ jobs:
           bash y2b2aliyundrive/scripts/install.sh
         env:
           TOOLS_CACHE_HIT: ${{ steps.tools-cache.outputs.cache-hit }}
-      
+
       - name: Run
         run: |
           python y2b2aliyundrive/main.py "${URL}" "${RES}" "${DRIVE_DIR}"
