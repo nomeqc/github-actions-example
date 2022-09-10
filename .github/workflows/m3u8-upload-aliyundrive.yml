@@ -1,4 +1,4 @@
-name: Download m3u8 video & upload to AliyunDrive       
+name: Download m3u8 video & upload to AliyunDrive
 
 on:
   workflow_dispatch:
@@ -16,20 +16,22 @@ on:
         description: "压缩密码（默认为000），不需要压缩密码留空："
         default: "000"
         required: false
-
+      enable_proxy:
+        description: "启用代理"
+        required: false
+        type: boolean
 
 env:
+  ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
   GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TOOLS_PATH: /usr/local/bin/tools
 
-  
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout private scripts
         uses: actions/checkout@v3
         with:
@@ -48,7 +50,7 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('m3u8transfer/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      
+
       - name: tools cache
         id: tools-cache
         uses: actions/cache@v3
@@ -64,7 +66,7 @@ jobs:
           bash m3u8transfer/scripts/install.sh
         env:
           TOOLS_CACHE_HIT: ${{ steps.tools-cache.outputs.cache-hit }}
-      
+
       - name: Run
         run: |
           python m3u8transfer/m3u8transfer.py --drive_type aliyundrive --password "${PASSWORD}" "${M3U8_URL}" "${FILENAME}" "${DRIVE_DIR}"
