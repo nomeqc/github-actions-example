@@ -11,18 +11,23 @@ on:
         required: true
       data_url:
         description: "数据url："
-        default: ''
+        default: ""
         required: true
       read_cache:
-        description: '读取缓存'
+        description: "读取缓存"
         required: true
-        default: '是' 
+        default: "是"
         type: choice
         options:
-        - 是
-        - 否
+          - 是
+          - 否
+      enable_proxy:
+        description: "启用代理"
+        required: false
+        type: boolean
 
 env:
+  ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
   GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -49,19 +54,18 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('xmly2aliyundrive/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-        
 
       - name: Run
         run: |
           if [[ -f xmly2aliyundrive/requirements.txt ]]; then pip install -r xmly2aliyundrive/requirements.txt; fi
-          
+
           if [ "$READ_CACHE" == "否" ];then
             echo "将忽略缓存"
             python xmly2aliyundrive/main.py "$ALBUM_ID" "$DRIVE_DIR" -c 8 --data_url "$DATA_URL" --ignore_cache
           else
             python xmly2aliyundrive/main.py "$ALBUM_ID" "$DRIVE_DIR" -c 8 --data_url "$DATA_URL"
           fi
-          
+
         env:
           ALBUM_ID: ${{ github.event.inputs.album_id }}
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
