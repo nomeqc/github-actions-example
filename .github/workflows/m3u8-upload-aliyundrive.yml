@@ -12,6 +12,10 @@ on:
       drive_dir:
         description: "文件上传的网盘目录："
         required: true
+      enable_zip:
+        description: "启用压缩"
+        required: true
+        type: boolean
       password:
         description: "压缩密码（默认为000），不需要压缩密码留空："
         default: "000"
@@ -23,6 +27,7 @@ on:
 
 env:
   ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
+  ENABLE_ZIP: ${{ github.event.inputs.enable_zip }}
   GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   TOOLS_PATH: /usr/local/bin/tools
