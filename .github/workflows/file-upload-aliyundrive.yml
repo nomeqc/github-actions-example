@@ -16,7 +16,6 @@ on:
       is_zip:
         description: "压缩成ZIP："
         type: boolean
-        default: true
         required: false
       password:
         description: "压缩密码（默认为000），不需要压缩密码留空："
@@ -24,6 +23,7 @@ on:
         required: false
       enable_proxy:
         description: "启用代理"
+        default: true
         required: false
         type: boolean
 
