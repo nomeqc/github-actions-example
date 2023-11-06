@@ -14,7 +14,7 @@ on:
         required: true
       enable_zip:
         description: "启用压缩"
-        required: true
+        required: false
         type: boolean
       password:
         description: "压缩密码（默认为000），不需要压缩密码留空："
