@@ -11,7 +11,8 @@ on:
         required: true
       enable_proxy:
         description: "启用代理"
-        required: true
+        required: false
+        default: true
         type: boolean
 
 env:
