@@ -1,0 +1,18 @@
+name: "aria2 example"
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: '请输入url：'
+        required: true
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run
+        env:
+          URL: ${{ github.event.inputs.url }}
+        run: |
+          sudo apt install -y aria2
+          aria2c "$URL" -O example.file
