@@ -15,4 +15,4 @@ jobs:
           URL: ${{ github.event.inputs.url }}
         run: |
           sudo apt install -y aria2
-          aria2c "$URL" -O example.file
+          aria2c "$URL" -o example.file
