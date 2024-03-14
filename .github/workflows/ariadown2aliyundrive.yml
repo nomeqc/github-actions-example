@@ -1,0 +1,67 @@
+name: Aria2c download files and upload to aliyundrive
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: "文件地址或文件列表地址："
+        required: true
+      drive_dir:
+        description: "文件上传的网盘目录："
+        required: true
+      down_list:
+        description: "下载列表"
+        required: false
+        default: false
+        type: boolean
+      enable_proxy:
+        description: "启用代理"
+        required: false
+        default: true
+        type: boolean
+
+env:
+  ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
+  GITHUB_PROXY: ${{ secrets.GH_PROXY }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout private scripts
+        uses: actions/checkout@v3
+        with:
+          repository: nomeqc/private-scripts
+          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+
+      - name: pip cache
+        uses: actions/cache@v3
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('aria2aliyundrive/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: Install dependency
+        run: |
+          bash aria2aliyundrive/scripts/install.sh
+
+      - name: Run
+        run: |
+          if [ "$DOWN_LIST" == "true" ];then
+            python aria2aliyundrive/main.py "${URL}" "${DRIVE_DIR}" --down-list
+          else
+            python aria2aliyundrive/main.py "${URL}" "${DRIVE_DIR}"
+          fi
+          
+        env:
+          URL: ${{ github.event.inputs.url }}
+          DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
+          DOWN_LIST: ${{ github.event.inputs.down_list }}
