@@ -17,6 +17,11 @@ on:
       #   options:
       #   - aliyundrive
       #   - cloud189
+      concat_files:
+        description: "合并文件"
+        required: false
+        default: false
+        type: boolean
       enable_proxy:
         description: '启用代理'
         required: false 
@@ -26,8 +31,6 @@ env:
   ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
   GITHUB_PROXY: ${{ secrets.GH_PROXY }}
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  # CLOUD189_USER: ${{ secrets.CLOUD189_USER }}
-  # CLOUD189_PWD: ${{ secrets.CLOUD189_PWD }}
   TOOLS_PATH: /usr/local/bin/tools
   
   
@@ -73,8 +76,12 @@ jobs:
       
       - name: Run
         run: |
-          python duboku.tv/main.py --drive_type aliyundrive "${LIST_URL}" "${DRIVE_DIR}"
+          if [ "$CONCAT_FILES" == "true" ];then
+            python duboku.tv/main.py "${LIST_URL}" "${DRIVE_DIR}" --merge-into-one
+          else
+            python duboku.tv/main.py "${LIST_URL}" "${DRIVE_DIR}"
+          fi
         env:
           LIST_URL: ${{ github.event.inputs.tasklist_url }}
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
-          # DRIVE_TYPE: ${{ github.event.inputs.drive_type }}
+          CONCAT_FILES: ${{ github.event.inputs.concat_files }}
