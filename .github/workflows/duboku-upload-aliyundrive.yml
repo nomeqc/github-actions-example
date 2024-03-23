@@ -3,8 +3,8 @@ name: Download duboku.tv video & upload to AliyunDrive
 on:
   workflow_dispatch:
     inputs:
-      url_pattern:
-        description: "请输入页面url，支持输入范围（如：[1-2]）:"
+      tasklist_url:
+        description: "请输入任务列表地址，内容示例：[{\"name\": \"test\", \"url\": \"https://xxx.com/test.m3u8\"}]"
         required: true
       drive_dir:
         description: "文件上传的网盘目录："
@@ -73,8 +73,8 @@ jobs:
       
       - name: Run
         run: |
-          python duboku.tv/main.py --drive_type aliyundrive "${URL_PATTERN}" "${DRIVE_DIR}"
+          python duboku.tv/main.py --drive_type aliyundrive "${LIST_URL}" "${DRIVE_DIR}"
         env:
-          URL_PATTERN: ${{ github.event.inputs.url_pattern }}
+          LIST_URL: ${{ github.event.inputs.tasklist_url }}
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
           # DRIVE_TYPE: ${{ github.event.inputs.drive_type }}
