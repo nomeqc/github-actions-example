@@ -41,18 +41,18 @@ jobs:
     steps:
 
       - name: Checkout private scripts
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: nomeqc/private-scripts
           token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
 
       - name: Set up Python 3.9
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v5
         with:
           python-version: "3.9"
 
       - name: pip cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('duboku.tv/requirements.txt') }}
@@ -61,7 +61,7 @@ jobs:
       
       - name: tools cache
         id: tools-cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ env.TOOLS_PATH }}
           key: ${{ runner.os }}-tools-${{ hashFiles('duboku.tv/scripts/install.sh') }}
