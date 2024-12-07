@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Show all PATH vars
-        run: python -c "import os; print(os.environ)"
+        run: python -c "import os; import json; print(json.dumps(dict(os.environ), indent=4))"
       - name: show PATH
         run: echo $(cat "$GITHUB_PATH")
       - name: Dump GitHub context
