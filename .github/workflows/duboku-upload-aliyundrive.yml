@@ -77,9 +77,9 @@ jobs:
       - name: Run
         run: |
           if [ "$CONCAT_FILES" == "true" ];then
-            python duboku.tv/main.py "${LIST_URL}" "${DRIVE_DIR}" --merge-into-one
+            python -u duboku.tv/main.py "${LIST_URL}" "${DRIVE_DIR}" --merge-into-one
           else
-            python duboku.tv/main.py "${LIST_URL}" "${DRIVE_DIR}"
+            python -u duboku.tv/main.py "${LIST_URL}" "${DRIVE_DIR}"
           fi
         env:
           LIST_URL: ${{ github.event.inputs.tasklist_url }}
