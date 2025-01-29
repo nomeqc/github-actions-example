@@ -75,7 +75,7 @@ jobs:
       
       - name: Run
         run: |
-          python aliyundrive_audio_cutter/aliyundrive_audio_cutter.py "${DRIVE_DIR}" --leading_seconds "${LEADING_SECONDS}" --trailing_seconds "${TRAILING_SECONDS}" --leading_sample_url "${LEADING_SAMPLE_URL}" --trailing_sample_url "${TRAILING_SAMPLE_URL}" --filter_func "${FILTER_FUNC}"
+          python -u aliyundrive_audio_cutter/aliyundrive_audio_cutter.py "${DRIVE_DIR}" --leading_seconds "${LEADING_SECONDS}" --trailing_seconds "${TRAILING_SECONDS}" --leading_sample_url "${LEADING_SAMPLE_URL}" --trailing_sample_url "${TRAILING_SAMPLE_URL}" --filter_func "${FILTER_FUNC}"
         env:
           DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
           LEADING_SECONDS: ${{ github.event.inputs.leading_seconds }}

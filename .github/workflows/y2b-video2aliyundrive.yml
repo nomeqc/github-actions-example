@@ -71,7 +71,7 @@ jobs:
 
       - name: Run
         run: |
-          python y2b2aliyundrive/main.py "${URL}" "${RES}" "${DRIVE_DIR}"
+          python -u y2b2aliyundrive/main.py "${URL}" "${RES}" "${DRIVE_DIR}"
         env:
           URL: ${{ github.event.inputs.url }}
           RES: ${{ github.event.inputs.res }}

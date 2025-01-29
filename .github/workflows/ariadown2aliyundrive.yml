@@ -56,9 +56,9 @@ jobs:
       - name: Run
         run: |
           if [ "$DOWN_LIST" == "true" ];then
-            python aria2aliyundrive/main.py "${URL}" "${DRIVE_DIR}" --down-list
+            python -u aria2aliyundrive/main.py "${URL}" "${DRIVE_DIR}" --down-list
           else
-            python aria2aliyundrive/main.py "${URL}" "${DRIVE_DIR}"
+            python -u aria2aliyundrive/main.py "${URL}" "${DRIVE_DIR}"
           fi
           
         env:

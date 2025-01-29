@@ -66,9 +66,9 @@ jobs:
       - name: Run
         run: |
           if [ "$IS_ZIP" == "true" ];then
-            python filetransfer/filetransfer.py "${URL}" "${FILENAME}" "${DRIVE_DIR}" --password "${PASSWORD}" --is_zip
+            python -u filetransfer/filetransfer.py "${URL}" "${FILENAME}" "${DRIVE_DIR}" --password "${PASSWORD}" --is_zip
           else
-            python filetransfer/filetransfer.py "${URL}" "${FILENAME}" "${DRIVE_DIR}"
+            python -u filetransfer/filetransfer.py "${URL}" "${FILENAME}" "${DRIVE_DIR}"
           fi
 
         env:
