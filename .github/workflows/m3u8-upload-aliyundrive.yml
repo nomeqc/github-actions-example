@@ -24,6 +24,10 @@ on:
                 description: "下载分片文件referer："
                 default: ""
                 required: false
+            user_agent:
+                description: "User-Agent:："
+                default: ""
+                required: false
             enable_zip:
                 description: "启用压缩"
                 required: false
@@ -42,6 +46,7 @@ env:
     REFERER: ${{ github.event.inputs.referer }}
     M3U8_REFERER: ${{ github.event.inputs.m3u8_referer }}
     SEGMENT_REFERER: ${{ github.event.inputs.segment_referer }}
+    USER_AGENT: ${{ github.event.inputs.user_agent }}
     GITHUB_PROXY: ${{ secrets.GH_PROXY }}
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     TOOLS_PATH: /usr/local/bin/tools
