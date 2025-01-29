@@ -25,7 +25,7 @@ on:
                 default: ""
                 required: false
             user_agent:
-                description: "User-Agent:："
+                description: "User-Agent："
                 default: ""
                 required: false
             enable_zip:
