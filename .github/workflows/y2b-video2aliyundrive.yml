@@ -1,78 +1,82 @@
 name: Download y2b video and upload to aliyundrive
 
 on:
-  workflow_dispatch:
-    inputs:
-      url:
-        description: "youtube视频地址："
-        required: true
-      res:
-        description: "分辨率偏好："
-        required: true
-        default: "1080p"
-        type: choice
-        options:
-          - 1080p
-          - 720p
-          - 480p
-          - 360p
-      drive_dir:
-        description: "文件上传的网盘目录："
-        required: true
-      enable_proxy:
-        description: "启用代理"
-        required: false
-        type: boolean
+    workflow_dispatch:
+        inputs:
+            url:
+                description: "youtube视频地址："
+                required: true
+            res:
+                description: "分辨率偏好："
+                required: true
+                default: "1080p"
+                type: choice
+                options:
+                    - 1080p
+                    - 720p
+                    - 480p
+                    - 360p
+            drive_dir:
+                description: "文件上传的网盘目录："
+                required: true
+            filename:
+                description: "指定文件名(不包括后缀)："
+                required: false
+            enable_proxy:
+                description: "启用代理"
+                required: false
+                type: boolean
 
 env:
-  ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
-  GITHUB_PROXY: ${{ secrets.GH_PROXY }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  TOOLS_PATH: /usr/local/bin/tools
+    ENABLE_PROXY: ${{ github.event.inputs.enable_proxy }}
+    GITHUB_PROXY: ${{ secrets.GH_PROXY }}
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    TOOLS_PATH: /usr/local/bin/tools
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+    build:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout private scripts
-        uses: actions/checkout@v4
-        with:
-          repository: nomeqc/private-scripts
-          token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
+        steps:
+            - name: Checkout private scripts
+              uses: actions/checkout@v4
+              with:
+                  repository: nomeqc/private-scripts
+                  token: ${{ secrets.GH_PAT }} # `GH_PAT` is a secret that contains your PAT
 
-      - name: Set up Python 3.9
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.9"
+            - name: Set up Python 3.9
+              uses: actions/setup-python@v5
+              with:
+                  python-version: "3.9"
 
-      - name: pip cache
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('y2b2aliyundrive/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+            - name: pip cache
+              uses: actions/cache@v4
+              with:
+                  path: ~/.cache/pip
+                  key: ${{ runner.os }}-pip-${{ hashFiles('y2b2aliyundrive/requirements.txt') }}
+                  restore-keys: |
+                      ${{ runner.os }}-pip-
 
-      - name: tools cache
-        id: tools-cache
-        uses: actions/cache@v4
-        with:
-          path: ${{ env.TOOLS_PATH }}
-          key: ${{ runner.os }}-tools-${{ hashFiles('y2b2aliyundrive/scripts/install.sh') }}
-          restore-keys: |
-            ${{ runner.os }}-tools-
+            - name: tools cache
+              id: tools-cache
+              uses: actions/cache@v4
+              with:
+                  path: ${{ env.TOOLS_PATH }}
+                  key: ${{ runner.os }}-tools-${{ hashFiles('y2b2aliyundrive/scripts/install.sh') }}
+                  restore-keys: |
+                      ${{ runner.os }}-tools-
 
-      - name: Install dependency
-        run: |
-          bash y2b2aliyundrive/scripts/install.sh
-        env:
-          TOOLS_CACHE_HIT: ${{ steps.tools-cache.outputs.cache-hit }}
+            - name: Install dependency
+              run: |
+                  bash y2b2aliyundrive/scripts/install.sh
+              env:
+                  TOOLS_CACHE_HIT: ${{ steps.tools-cache.outputs.cache-hit }}
 
-      - name: Run
-        run: |
-          python -u y2b2aliyundrive/main.py "${URL}" "${RES}" "${DRIVE_DIR}"
-        env:
-          URL: ${{ github.event.inputs.url }}
-          RES: ${{ github.event.inputs.res }}
-          DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
+            - name: Run
+              run: |
+                  python -u y2b2aliyundrive/main.py "${URL}" "${RES}" "${DRIVE_DIR}" --filename "${FILENAME}"
+              env:
+                  URL: ${{ github.event.inputs.url }}
+                  RES: ${{ github.event.inputs.res }}
+                  DRIVE_DIR: ${{ github.event.inputs.drive_dir }}
+                  FILENAME: ${{ github.event.inputs.filename }}
